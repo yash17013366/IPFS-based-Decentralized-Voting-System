@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPFS Integration Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .test-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success { background: rgba(76, 175, 80, 0.3); }
+        .error { background: rgba(244, 67, 54, 0.3); }
+        .info { background: rgba(33, 150, 243, 0.3); }
+    </style>
+</head>
+<body>
+    <h1>🔗 IPFS Integration Test</h1>
+    
+    <div class="test-card">
+        <h2>Test 1: IPFS Service Initialization</h2>
+        <button onclick="testIPFSInit()">Test IPFS Connection</button>
+        <div id="init-status" class="status"></div>
+    </div>
+
+    <div class="test-card">
+        <h2>Test 2: Data Upload to IPFS</h2>
+        <button onclick="testDataUpload()">Test Data Upload</button>
+        <div id="upload-status" class="status"></div>
+    </div>
+
+    <div class="test-card">
+        <h2>Test 3: Data Retrieval from IPFS</h2>
+        <button onclick="testDataRetrieval()">Test Data Retrieval</button>
+        <div id="retrieval-status" class="status"></div>
+    </div>
+
+    <div class="test-card">
+        <h2>Test 4: Vote Data Simulation</h2>
+        <button onclick="testVoteData()">Test Vote Data</button>
+        <div id="vote-status" class="status"></div>
+    </div>
+
+    <div class="test-card">
+        <h2>Test Results</h2>
+        <div id="test-results"></div>
+    </div>
+
+    <script src="ipfs-service.js"></script>
+    <script>
+        let testResults = [];
+
+        function addTestResult(testName, success, message) {
+            testResults.push({ testName, success, message });
+            updateTestResults();
+        }
+
+        function updateTestResults() {
+            const resultsDiv = document.getElementById('test-results');
+            const passed = testResults.filter(r => r.success).length;
+            const total = testResults.length;
+            
+            resultsDiv.innerHTML = `
+                <h3>Test Summary: ${passed}/${total} Tests Passed</h3>
+                ${testResults.map(result => `
+                    <div class="status ${result.success ? 'success' : 'error'}">
+                        ${result.success ? '✅' : '❌'} ${result.testName}: ${result.message}
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        async function testIPFSInit() {
+            const statusDiv = document.getElementById('init-status');
+            statusDiv.innerHTML = 'Testing IPFS initialization...';
+            statusDiv.className = 'status info';
+
+            try {
+                // Wait for IPFS service to initialize
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                if (window.ipfsService) {
+                    statusDiv.innerHTML = '✅ IPFS service initialized successfully';
+                    statusDiv.className = 'status success';
+                    addTestResult('IPFS Initialization', true, 'Service ready');
+                } else {
+                    throw new Error('IPFS service not found');
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `❌ IPFS initialization failed: ${error.message}`;
+                statusDiv.className = 'status error';
+                addTestResult('IPFS Initialization', false, error.message);
+            }
+        }
+
+        async function testDataUpload() {
+            const statusDiv = document.getElementById('upload-status');
+            statusDiv.innerHTML = 'Testing data upload to IPFS...';
+            statusDiv.className = 'status info';
+
+            try {
+                const testData = {
+                    test: true,
+                    timestamp: Date.now(),
+                    message: 'Hello IPFS!'
+                };
+
+                const hash = await window.ipfsService.uploadToIPFS(testData);
+                
+                statusDiv.innerHTML = `✅ Data uploaded successfully! Hash: ${hash.substring(0, 20)}...`;
+                statusDiv.className = 'status success';
+                addTestResult('Data Upload', true, `Hash: ${hash.substring(0, 20)}...`);
+                
+                // Store hash for retrieval test
+                window.testHash = hash;
+            } catch (error) {
+                statusDiv.innerHTML = `❌ Data upload failed: ${error.message}`;
+                statusDiv.className = 'status error';
+                addTestResult('Data Upload', false, error.message);
+            }
+        }
+
+        async function testDataRetrieval() {
+            const statusDiv = document.getElementById('retrieval-status');
+            statusDiv.innerHTML = 'Testing data retrieval from IPFS...';
+            statusDiv.className = 'status info';
+
+            try {
+                if (!window.testHash) {
+                    throw new Error('No test hash available. Run upload test first.');
+                }
+
+                const retrievedData = await window.ipfsService.retrieveFromIPFS(window.testHash);
+                
+                if (retrievedData && retrievedData.test) {
+                    statusDiv.innerHTML = `✅ Data retrieved successfully! Message: ${retrievedData.message}`;
+                    statusDiv.className = 'status success';
+                    addTestResult('Data Retrieval', true, 'Data matches original');
+                } else {
+                    throw new Error('Retrieved data does not match original');
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `❌ Data retrieval failed: ${error.message}`;
+                statusDiv.className = 'status error';
+                addTestResult('Data Retrieval', false, error.message);
+            }
+        }
+
+        async function testVoteData() {
+            const statusDiv = document.getElementById('vote-status');
+            statusDiv.innerHTML = 'Testing vote data simulation...';
+            statusDiv.className = 'status info';
+
+            try {
+                const voteData = {
+                    voterId: 1,
+                    candidateId: 2,
+                    timestamp: Date.now(),
+                    voterName: 'Test Voter',
+                    candidateName: 'Test Candidate'
+                };
+
+                const voteHash = await window.ipfsService.saveVote(voteData);
+                
+                statusDiv.innerHTML = `✅ Vote data saved successfully! Hash: ${voteHash.substring(0, 20)}...`;
+                statusDiv.className = 'status success';
+                addTestResult('Vote Data', true, `Vote hash: ${voteHash.substring(0, 20)}...`);
+            } catch (error) {
+                statusDiv.innerHTML = `❌ Vote data test failed: ${error.message}`;
+                statusDiv.className = 'status error';
+                addTestResult('Vote Data', false, error.message);
+            }
+        }
+
+        // Auto-run tests after page loads
+        window.addEventListener('load', () => {
+            setTimeout(testIPFSInit, 1000);
+        });
+    </script>
+</body>
+</html> 

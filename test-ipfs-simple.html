@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPFS Service Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        button { padding: 10px 15px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer; }
+        .result { margin: 10px 0; padding: 10px; background: #f8f9fa; border-radius: 3px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>IPFS Service Test</h1>
+    
+    <div class="test-section">
+        <h3>Test 1: IPFS Service Initialization</h3>
+        <button onclick="testInit()">Test Initialization</button>
+        <div id="init-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Test 2: Data Upload</h3>
+        <button onclick="testUpload()">Test Upload</button>
+        <div id="upload-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Test 3: Data Retrieval</h3>
+        <button onclick="testRetrieve()">Test Retrieval</button>
+        <div id="retrieve-result" class="result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Test 4: Vote Data</h3>
+        <button onclick="testVoteData()">Test Vote Data</button>
+        <div id="vote-result" class="result"></div>
+    </div>
+
+    <script src="ipfs-service.js"></script>
+    <script>
+        let testHash = null;
+        
+        function showResult(elementId, message, isSuccess = true) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `result ${isSuccess ? 'success' : 'error'}`;
+        }
+        
+        async function testInit() {
+            try {
+                await new Promise(resolve => setTimeout(resolve, 1000)); // Wait for IPFS service to initialize
+                if (window.ipfsService) {
+                    showResult('init-result', '✅ IPFS Service initialized successfully!');
+                } else {
+                    showResult('init-result', '❌ IPFS Service failed to initialize', false);
+                }
+            } catch (error) {
+                showResult('init-result', `❌ Error: ${error.message}`, false);
+            }
+        }
+        
+        async function testUpload() {
+            try {
+                const testData = {
+                    test: true,
+                    timestamp: Date.now(),
+                    message: 'Hello IPFS!'
+                };
+                
+                const hash = await window.ipfsService.uploadToIPFS(testData);
+                testHash = hash;
+                showResult('upload-result', `✅ Data uploaded successfully! Hash: ${hash}`);
+            } catch (error) {
+                showResult('upload-result', `❌ Upload failed: ${error.message}`, false);
+            }
+        }
+        
+        async function testRetrieve() {
+            try {
+                if (!testHash) {
+                    showResult('retrieve-result', '❌ No hash available. Run upload test first.', false);
+                    return;
+                }
+                
+                const data = await window.ipfsService.retrieveFromIPFS(testHash);
+                if (data) {
+                    showResult('retrieve-result', `✅ Data retrieved successfully! Data: ${JSON.stringify(data)}`);
+                } else {
+                    showResult('retrieve-result', '⚠️ Data not found (this is normal for mock hashes)');
+                }
+            } catch (error) {
+                showResult('retrieve-result', `❌ Retrieval failed: ${error.message}`, false);
+            }
+        }
+        
+        async function testVoteData() {
+            try {
+                const voteData = {
+                    voterId: 'V1234567890ABC123',
+                    candidateId: 'C1234567890DEF456',
+                    timestamp: Date.now(),
+                    voterName: 'John Doe',
+                    candidateName: 'Jane Smith'
+                };
+                
+                const hash = await window.ipfsService.saveVote(voteData);
+                showResult('vote-result', `✅ Vote data saved successfully! Hash: ${hash}`);
+            } catch (error) {
+                showResult('vote-result', `❌ Vote data test failed: ${error.message}`, false);
+            }
+        }
+        
+        // Auto-run initialization test
+        setTimeout(testInit, 500);
+    </script>
+</body>
+</html> 

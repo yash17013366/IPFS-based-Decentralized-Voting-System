@@ -1,27 +1,31 @@
 {
-  "name": "voting_system",
-  "version": "0.1.0",
-  "private": true,
+  "name": "simple-voting-system",
+  "version": "1.0.0",
+  "description": "A clean, simple voting system built with HTML, CSS, and JavaScript",
+  "main": "index.html",
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "http-server . -p 3000 -o --cors",
+    "start": "http-server . -p 3000 -o --cors",
+    "serve": "http-server . -p 3000 -o --cors"
+  },
+  "keywords": [
+    "voting",
+    "democracy",
+    "simple",
+    "html",
+    "css",
+    "javascript",
+    "blockchain",
+    "ipfs"
+  ],
+  "author": "Voting System Developer",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
   },
   "dependencies": {
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "next": "15.4.5"
-  },
-  "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
-    "eslint": "^9",
-    "eslint-config-next": "15.4.5",
-    "@eslint/eslintrc": "^3"
+    "ipfs-http-client": "^60.0.1"
   }
 }
+
+

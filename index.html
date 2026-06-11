@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Voting System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:," type="image/x-icon">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🗳️ Simple Voting System</h1>
+            <p>Transparent • Simple • Secure</p>
+        </header>
+
+        <!-- Status Section -->
+        <section class="status-section">
+            <h2>📊 Voting Status</h2>
+            <div class="status-grid">
+                <div class="status-card">
+                    <h3>Status</h3>
+                    <p id="voting-status">Open</p>
+                </div>
+                <div class="status-card">
+                    <h3>Total Votes</h3>
+                    <p id="total-votes">0</p>
+                </div>
+                <div class="status-card">
+                    <h3>Candidates</h3>
+                    <p id="candidate-count">0</p>
+                </div>
+                <div class="status-card">
+                    <h3>Time Left</h3>
+                    <p id="time-remaining">24h 0m</p>
+                </div>
+                <div class="status-card">
+                    <h3>Participation</h3>
+                    <p id="participation-rate">0%</p>
+                </div>
+                <div class="status-card">
+                    <h3>Remaining</h3>
+                    <p id="remaining-voters">0</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Panel -->
+        <section class="admin-section">
+            <h2>Admin Panel</h2>
+            <div class="admin-grid">
+                <div class="admin-card">
+                    <h3>➕ Add Candidate</h3>
+                    <input type="text" id="candidate-name" placeholder="Enter candidate name">
+                    <button onclick="addCandidate()">Add Candidate</button>
+                </div>
+                <div class="admin-card">
+                    <h3>✅ Add Voter</h3>
+                    <input type="text" id="voter-name" placeholder="Enter voter name">
+                    <button onclick="addVoter()">Add Voter</button>
+                </div>
+                <div class="admin-card">
+                    <h3>⏹️ End Voting</h3>
+                    <input type="password" id="admin-password" placeholder="Enter admin password">
+                    <button onclick="endVoting()">End Voting</button>
+                </div>
+                <div class="admin-card">
+                    <h3>🔄 Reset System</h3>
+                    <button onclick="resetSystem()">Reset All Data</button>
+                </div>
+                <div class="admin-card">
+                    <h3>📊 Export Data</h3>
+                    <button onclick="exportVotingData()">Export Voting Data</button>
+                </div>
+            
+                <div class="admin-card">
+                    <h3>🖨️ Generate Cards</h3>
+                    <button onclick="generateVoterCards()">Print Voter Cards</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Voters Section -->
+        <section class="voters-section">
+            <h2>👥 Voters</h2>
+            <div id="voters-list" class="voters-grid">
+                <p class="empty-message">No voters added yet.</p>
+            </div>
+        </section>
+
+        <!-- Candidates Section -->
+        <section class="candidates-section">
+            <h2>👥 Candidates</h2>
+            <div id="candidates-list" class="candidates-grid">
+                <p class="empty-message">No candidates added yet.</p>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section">
+            <h2>📈 Live Results</h2>
+            <div id="results-chart" class="results-chart">
+                <p class="empty-message">No votes cast yet.</p>
+            </div>
+        </section>
+
+        <!-- Winner Section -->
+        <section id="winner-section" class="winner-section" style="display: none;">
+            <h2>🏆 Winner</h2>
+            <div id="winner-display"></div>
+        </section>
+    </div>
+
+    <!-- Message Display -->
+    <div id="message" class="message"></div>
+
+    <!-- IPFS Status -->
+    <div id="ipfs-status" class="ipfs-status">
+        <span id="ipfs-indicator">🔴 IPFS: Connecting...</span>
+        <span id="ipfs-hash"></span>
+    </div>
+
+    <!-- IPFS HTTP Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/ipfs-http-client@60.0.1/dist/index.min.js"></script>
+    <script>
+        // Make IPFS client available globally
+        window.ipfsHttpClient = window.IpfsHttpClient;
+    </script>
+    <script src="ipfs-service.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>     
