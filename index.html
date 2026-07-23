@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta name="description" content="IPFS-based decentralized voting system — transparent, simple, and secure.">
     <title>Simple Voting System</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="data:," type="image/x-icon">
@@ -11,13 +13,17 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <h1>🗳️ Simple Voting System</h1>
+            <h1><span class="header-emoji">🗳️</span>Simple Voting System</h1>
             <p>Transparent • Simple • Secure</p>
+            <button id="theme-toggle" aria-label="Toggle theme">
+                <span id="theme-icon">🌙</span>
+                <span id="theme-label">Dark Mode</span>
+            </button>
         </header>
 
         <!-- Status Section -->
         <section class="status-section">
-            <h2>📊 Voting Status</h2>
+            <h2><span class="section-icon">📊</span> Voting Status</h2>
             <div class="status-grid">
                 <div class="status-card">
                     <h3>Status</h3>
@@ -48,7 +54,7 @@
 
         <!-- Admin Panel -->
         <section class="admin-section">
-            <h2>Admin Panel</h2>
+            <h2><span class="section-icon">⚙️</span> Admin Panel</h2>
             <div class="admin-grid">
                 <div class="admin-card">
                     <h3>➕ Add Candidate</h3>
@@ -83,7 +89,7 @@
 
         <!-- Voters Section -->
         <section class="voters-section">
-            <h2>👥 Voters</h2>
+            <h2><span class="section-icon">👥</span> Voters</h2>
             <div id="voters-list" class="voters-grid">
                 <p class="empty-message">No voters added yet.</p>
             </div>
@@ -91,7 +97,7 @@
 
         <!-- Candidates Section -->
         <section class="candidates-section">
-            <h2>👥 Candidates</h2>
+            <h2><span class="section-icon">🏛️</span> Candidates</h2>
             <div id="candidates-list" class="candidates-grid">
                 <p class="empty-message">No candidates added yet.</p>
             </div>
@@ -99,7 +105,7 @@
 
         <!-- Results Section -->
         <section class="results-section">
-            <h2>📈 Live Results</h2>
+            <h2><span class="section-icon">📈</span> Live Results</h2>
             <div id="results-chart" class="results-chart">
                 <p class="empty-message">No votes cast yet.</p>
             </div>
@@ -107,7 +113,7 @@
 
         <!-- Winner Section -->
         <section id="winner-section" class="winner-section" style="display: none;">
-            <h2>🏆 Winner</h2>
+            <h2><span class="section-icon">🏆</span> Winner</h2>
             <div id="winner-display"></div>
         </section>
     </div>
@@ -121,6 +127,62 @@
         <span id="ipfs-hash"></span>
     </div>
 
+    <!-- Theme Toggle Script (UI preference only — no functional logic) -->
+    <script>
+        (function () {
+            const html = document.documentElement;
+            const btn = document.getElementById('theme-toggle');
+            const icon = document.getElementById('theme-icon');
+            const label = document.getElementById('theme-label');
+
+            // Load persisted preference, or respect OS preference
+            const stored = localStorage.getItem('vs-theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const initial = stored || (prefersDark ? 'dark' : 'light');
+            applyTheme(initial);
+
+            btn.addEventListener('click', function () {
+                const current = html.getAttribute('data-theme');
+                applyTheme(current === 'dark' ? 'light' : 'dark');
+            });
+
+            function applyTheme(theme) {
+                html.setAttribute('data-theme', theme);
+                localStorage.setItem('vs-theme', theme);
+                if (theme === 'dark') {
+                    icon.textContent = '☀️';
+                    label.textContent = 'Light Mode';
+                } else {
+                    icon.textContent = '🌙';
+                    label.textContent = 'Dark Mode';
+                }
+            }
+        })();
+    </script>
+
+    <!-- Voter / Candidate card avatar initial injection -->
+    <script>
+        // After DOM updates, stamp data-initial on each card so CSS ::before can show it
+        function stampCardInitials() {
+            document.querySelectorAll('.voter-card').forEach(function(card) {
+                var h = card.querySelector('h4');
+                if (h && !card.getAttribute('data-initial')) {
+                    card.setAttribute('data-initial', h.textContent.trim().charAt(0).toUpperCase());
+                }
+            });
+            document.querySelectorAll('.candidate-card').forEach(function(card) {
+                var h = card.querySelector('h3');
+                if (h && !card.getAttribute('data-initial')) {
+                    card.setAttribute('data-initial', h.textContent.trim().charAt(0).toUpperCase());
+                }
+            });
+        }
+
+        // Observe DOM mutations to keep initials fresh
+        var observer = new MutationObserver(stampCardInitials);
+        observer.observe(document.body, { childList: true, subtree: true });
+    </script>
+
     <!-- IPFS HTTP Client Library -->
     <script src="https://cdn.jsdelivr.net/npm/ipfs-http-client@60.0.1/dist/index.min.js"></script>
     <script>
@@ -130,4 +192,4 @@
     <script src="ipfs-service.js"></script>
     <script src="script.js"></script>
 </body>
-</html>     
+</html>

@@ -1,431 +1,964 @@
-/* Reset and Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* ============================================================
+   VOTING SYSTEM — Apple-Inspired Design System
+   Light & Dark Mode | Minimal | Premium | Trustworthy
+   ============================================================ */
+
+/* ── Google Font ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ── Design Tokens ── */
+:root {
+  /* Backgrounds */
+  --bg-primary:       #F5F5F7;
+  --bg-secondary:     #FFFFFF;
+  --bg-tertiary:      #F2F2F7;
+  --bg-card:          #FFFFFF;
+
+  /* Text */
+  --text-primary:     #1D1D1F;
+  --text-secondary:   #6E6E73;
+  --text-tertiary:    #AEAEB2;
+
+  /* Borders */
+  --border-color:     rgba(0, 0, 0, 0.08);
+  --border-focus:     rgba(0, 113, 227, 0.6);
+
+  /* Accent / Brand */
+  --accent:           #0071E3;
+  --accent-hover:     #0077ED;
+  --accent-light:     rgba(0, 113, 227, 0.1);
+
+  /* Semantic */
+  --success:          #28CD41;
+  --success-bg:       rgba(40, 205, 65, 0.1);
+  --warning:          #FF9F0A;
+  --warning-bg:       rgba(255, 159, 10, 0.12);
+  --danger:           #FF3B30;
+  --danger-bg:        rgba(255, 59, 48, 0.1);
+  --teal:             #32ADE6;
+  --teal-bg:          rgba(50, 173, 230, 0.1);
+  --purple:           #BF5AF2;
+  --purple-bg:        rgba(191, 90, 242, 0.1);
+  --orange:           #FF6B35;
+  --orange-bg:        rgba(255, 107, 53, 0.1);
+
+  /* Elevation */
+  --shadow-xs:        0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm:        0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+  --shadow-md:        0 8px 24px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.06);
+  --shadow-lg:        0 20px 48px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06);
+
+  /* Radius */
+  --radius-xs:        6px;
+  --radius-sm:        10px;
+  --radius-md:        14px;
+  --radius-lg:        20px;
+  --radius-xl:        28px;
+  --radius-pill:      999px;
+
+  /* Transitions */
+  --transition-fast:  0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base:  0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow:  0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Dark Mode Tokens ── */
+[data-theme="dark"] {
+  --bg-primary:       #000000;
+  --bg-secondary:     #1C1C1E;
+  --bg-tertiary:      #2C2C2E;
+  --bg-card:          #1C1C1E;
+
+  --text-primary:     #F5F5F7;
+  --text-secondary:   #98989D;
+  --text-tertiary:    #636366;
+
+  --border-color:     rgba(255, 255, 255, 0.1);
+  --border-focus:     rgba(10, 132, 255, 0.7);
+
+  --accent:           #0A84FF;
+  --accent-hover:     #2196FF;
+  --accent-light:     rgba(10, 132, 255, 0.15);
+
+  --success:          #32D74B;
+  --success-bg:       rgba(50, 215, 75, 0.12);
+  --warning:          #FFD60A;
+  --warning-bg:       rgba(255, 214, 10, 0.12);
+  --danger:           #FF453A;
+  --danger-bg:        rgba(255, 69, 58, 0.12);
+  --teal:             #64D2FF;
+  --teal-bg:          rgba(100, 210, 255, 0.12);
+  --purple:           #BF5AF2;
+  --purple-bg:        rgba(191, 90, 242, 0.12);
+  --orange:           #FF6B35;
+  --orange-bg:        rgba(255, 107, 53, 0.12);
+
+  --shadow-xs:        0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-sm:        0 4px 12px rgba(0, 0, 0, 0.35), 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-md:        0 8px 24px rgba(0, 0, 0, 0.4), 0 2px 6px rgba(0, 0, 0, 0.25);
+  --shadow-lg:        0 20px 48px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    color: #333;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display',
+               'SF Pro Text', 'Helvetica Neue', 'Segoe UI', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.5;
+  transition: background-color var(--transition-base), color var(--transition-base);
 }
 
+/* ============================================================
+   LAYOUT
+   ============================================================ */
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
 }
 
-/* Header */
+/* ============================================================
+   HEADER
+   ============================================================ */
 .header {
-    text-align: center;
-    margin-bottom: 40px;
-    color: white;
+  text-align: center;
+  margin-bottom: 48px;
+  padding: 48px 24px 40px;
+  position: relative;
 }
 
 .header h1 {
-    font-size: 3rem;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  line-height: 1.1;
+}
+
+.header h1 .header-emoji {
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 0.85em;
 }
 
 .header p {
-    font-size: 1.2rem;
-    opacity: 0.9;
+  font-size: 1.0625rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  letter-spacing: 0.02em;
 }
 
-/* Sections */
+/* Theme Toggle */
+#theme-toggle {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-pill);
+  padding: 8px 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--shadow-xs);
+  transition: all var(--transition-fast);
+  font-family: inherit;
+}
+
+#theme-toggle:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+#theme-toggle:active {
+  transform: translateY(0);
+}
+
+/* ============================================================
+   SECTIONS — Base
+   ============================================================ */
 section {
-    background: white;
-    border-radius: 15px;
-    padding: 30px;
-    margin-bottom: 30px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    border-left: 5px solid #667eea;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  transition: background-color var(--transition-base), border-color var(--transition-base),
+              box-shadow var(--transition-base);
 }
 
 section h2 {
-    font-size: 1.8rem;
-    margin-bottom: 25px;
-    color: #333;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* Status Section */
+section h2 .section-icon {
+  font-size: 1.1em;
+  opacity: 0.85;
+}
+
+/* ============================================================
+   STATUS SECTION
+   ============================================================ */
+.status-section {
+  background: var(--bg-card);
+}
+
 .status-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
 }
 
 .status-card {
-    text-align: center;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 10px;
-    border: 2px solid #e9ecef;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+  padding: 20px 16px;
+  text-align: center;
+  border: 1px solid var(--border-color);
+  transition: all var(--transition-fast);
+}
+
+.status-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+  border-color: var(--accent-light);
 }
 
 .status-card h3 {
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
 }
 
 .status-card p {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #667eea;
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.03em;
+  line-height: 1;
 }
 
-/* Admin Section */
+/* ============================================================
+   ADMIN SECTION
+   ============================================================ */
+.admin-section {
+  background: var(--bg-card);
+}
+
 .admin-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
 }
 
 .admin-card {
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 10px;
-    border: 2px solid #e9ecef;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+  padding: 22px 20px;
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all var(--transition-fast);
+}
+
+.admin-card:hover {
+  box-shadow: var(--shadow-sm);
+  border-color: rgba(0, 113, 227, 0.15);
 }
 
 .admin-card h3 {
-    font-size: 1.1rem;
-    margin-bottom: 15px;
-    color: #333;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: -0.01em;
 }
 
+/* Inputs */
 .admin-card input {
-    width: 100%;
-    padding: 12px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    font-size: 1rem;
-    transition: border-color 0.3s;
+  width: 100%;
+  padding: 11px 14px;
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+  font-family: inherit;
+  color: var(--text-primary);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast),
+              background-color var(--transition-base);
+  outline: none;
+}
+
+.admin-card input::placeholder {
+  color: var(--text-tertiary);
 }
 
 .admin-card input:focus {
-    outline: none;
-    border-color: #667eea;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-light);
+  background: var(--bg-card);
 }
 
+/* Buttons — shared base */
 .admin-card button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  letter-spacing: -0.01em;
+  transition: all var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-card button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0);
+  transition: background var(--transition-fast);
 }
 
 .admin-card button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
-/* Button Colors */
+.admin-card button:hover::after {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.admin-card button:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-xs);
+}
+
+/* Per-card button semantic colors */
 .admin-card:nth-child(1) button {
-    background: #28a745;
-    color: white;
+  background: var(--success);
+  color: #fff;
 }
 
 .admin-card:nth-child(2) button {
-    background: #17a2b8;
-    color: white;
+  background: var(--teal);
+  color: #fff;
 }
 
 .admin-card:nth-child(3) button {
-    background: #ffc107;
-    color: #333;
+  background: var(--warning);
+  color: #fff;
 }
 
 .admin-card:nth-child(4) button {
-    background: #dc3545;
-    color: white;
+  background: var(--danger);
+  color: #fff;
 }
 
 .admin-card:nth-child(5) button {
-    background: #17a2b8;
-    color: white;
+  background: var(--accent);
+  color: #fff;
 }
 
 .admin-card:nth-child(6) button {
-    background: #6f42c1;
-    color: white;
+  background: var(--purple);
+  color: #fff;
 }
 
 .admin-card:nth-child(7) button {
-    background: #fd7e14;
-    color: white;
+  background: var(--orange);
+  color: #fff;
 }
 
-/* Voters and Candidates Grids */
+/* ============================================================
+   VOTERS SECTION
+   ============================================================ */
+.voters-section {
+  background: var(--bg-card);
+}
+
 .voters-grid,
 .candidates-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
 }
 
-.voter-card,
-.candidate-card {
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    border: 2px solid #e9ecef;
-    transition: all 0.3s;
+/* ── Voter Card ── */
+.voter-card {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 20px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: all var(--transition-fast);
 }
 
-.voter-card:hover,
-.candidate-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+.voter-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(0, 113, 227, 0.2);
 }
 
-.voter-card h4,
-.candidate-card h3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: #333;
+/* Avatar circle — generated from name initial via CSS counter trick */
+.voter-card::before {
+  content: attr(data-initial);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  color: var(--accent);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
-.voter-id,
-.candidate-id {
-    font-size: 0.8rem;
-    color: #666;
-    font-family: 'Courier New', monospace;
-    background: #f0f0f0;
-    padding: 3px 8px;
-    border-radius: 4px;
-    margin: 5px 0;
-    display: inline-block;
-    cursor: pointer;
-    transition: background-color 0.2s;
+.voter-card h4 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.voter-id {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  word-break: break-all;
+  max-width: 100%;
 }
 
 .voter-id:hover {
-    background: #e0e0e0;
-    color: #333;
+  background: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .voter-status {
-    display: inline-block;
-    padding: 5px 15px;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
 .voter-status.voted {
-    background: #ffc107;
-    color: #333;
+  background: var(--warning-bg);
+  color: var(--warning);
 }
 
 .voter-status.whitelisted {
-    background: #28a745;
-    color: white;
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+/* ============================================================
+   CANDIDATES SECTION
+   ============================================================ */
+.candidates-section {
+  background: var(--bg-card);
+}
+
+/* ── Candidate Card ── */
+.candidate-card {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 24px 16px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: all var(--transition-fast);
+}
+
+.candidate-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(0, 113, 227, 0.2);
+}
+
+.candidate-card::before {
+  content: attr(data-initial);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-light), var(--purple-bg));
+  color: var(--accent);
+  font-size: 1.375rem;
+  font-weight: 700;
+}
+
+.candidate-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.candidate-id {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
 }
 
 .vote-count {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #667eea;
-    margin: 10px 0;
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin-top: 4px;
+}
+
+.candidate-card > p {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-top: -4px;
 }
 
 .vote-button {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 25px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s;
+  margin-top: 8px;
+  width: 100%;
+  padding: 11px 16px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-pill);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  letter-spacing: -0.01em;
+  transition: all var(--transition-fast);
 }
 
 .vote-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  background: var(--accent-hover);
+  transform: scale(1.03);
+  box-shadow: 0 6px 20px rgba(0, 113, 227, 0.35);
+}
+
+.vote-button:active {
+  transform: scale(0.98);
 }
 
 .vote-button:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-    transform: none;
+  background: var(--bg-tertiary);
+  color: var(--text-tertiary);
+  border: 1.5px solid var(--border-color);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
-/* Results Chart */
+/* ============================================================
+   RESULTS SECTION
+   ============================================================ */
+.results-section {
+  background: var(--bg-card);
+}
+
 .results-chart {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .result-bar {
-    background: #f8f9fa;
-    padding: 15px;
-    border-radius: 10px;
-    border: 2px solid #e9ecef;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  transition: all var(--transition-fast);
+}
+
+.result-bar:hover {
+  border-color: rgba(0, 113, 227, 0.2);
+  box-shadow: var(--shadow-xs);
 }
 
 .result-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
 }
 
 .candidate-name {
-    font-weight: 600;
-    color: #333;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
 }
 
 .vote-percentage {
-    font-weight: bold;
-    color: #667eea;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.01em;
 }
 
 .progress-bar {
-    width: 100%;
-    height: 20px;
-    background: #e9ecef;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 5px;
+  width: 100%;
+  height: 10px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  margin-bottom: 8px;
+  border: 1px solid var(--border-color);
 }
 
 .progress-fill {
-    height: 100%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    transition: width 0.5s ease;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--purple));
+  border-radius: var(--radius-pill);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .vote-count-text {
-    font-size: 0.9rem;
-    color: #666;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-weight: 500;
 }
 
-/* Winner Section */
+/* ============================================================
+   WINNER SECTION
+   ============================================================ */
 .winner-section {
-    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-    text-align: center;
+  background: linear-gradient(135deg, #FFF7D6 0%, #FFF0A8 50%, #FFE066 100%);
+  border: 1.5px solid rgba(255, 195, 0, 0.35);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .winner-section {
+  background: linear-gradient(135deg, #2D2400 0%, #3D3000 50%, #4A3A00 100%);
+  border-color: rgba(255, 195, 0, 0.25);
+}
+
+.winner-section::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255, 214, 10, 0.25) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .winner-section h2 {
-    color: #333;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #7A5900;
+  justify-content: center;
+}
+
+[data-theme="dark"] .winner-section h2 {
+  color: #FFD60A;
 }
 
 .winner-name {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #333;
-    margin: 20px 0;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #4A3500;
+  margin: 16px 0 10px;
+}
+
+[data-theme="dark"] .winner-name {
+  color: #FFD60A;
 }
 
 .winner-votes {
-    font-size: 1.2rem;
-    color: #666;
+  font-size: 1rem;
+  color: #7A5900;
+  font-weight: 500;
 }
 
-/* Message */
+[data-theme="dark"] .winner-votes {
+  color: rgba(255, 214, 10, 0.75);
+}
+
+/* ============================================================
+   TOAST MESSAGE
+   ============================================================ */
 .message {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 15px 25px;
-    border-radius: 10px;
-    color: white;
-    font-weight: 600;
-    z-index: 1000;
-    transform: translateX(400px);
-    transition: transform 0.3s ease;
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  max-width: 360px;
+  padding: 14px 20px;
+  border-radius: var(--radius-md);
+  color: #fff;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  font-family: inherit;
+  z-index: 9999;
+  transform: translateY(-80px) translateX(0);
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              opacity 0.25s ease;
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.message::before {
+  font-size: 1rem;
+  flex-shrink: 0;
 }
 
 .message.show {
-    transform: translateX(0);
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .message.success {
-    background: #28a745;
+  background: rgba(28, 28, 30, 0.9);
+  border: 1px solid rgba(50, 215, 75, 0.3);
+}
+
+.message.success::before {
+  content: '✓';
+  color: var(--success);
+  font-weight: 700;
 }
 
 .message.error {
-    background: #dc3545;
+  background: rgba(28, 28, 30, 0.9);
+  border: 1px solid rgba(255, 69, 58, 0.3);
 }
 
-/* Empty Messages */
+.message.error::before {
+  content: '✕';
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.message.warning {
+  background: rgba(28, 28, 30, 0.9);
+  border: 1px solid rgba(255, 159, 10, 0.3);
+}
+
+.message.warning::before {
+  content: '⚠';
+  color: var(--warning);
+}
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
 .empty-message {
-    text-align: center;
-    color: #666;
-    font-style: italic;
-    grid-column: 1 / -1;
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-tertiary);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .container {
-        padding: 10px;
-    }
-    
-    .header h1 {
-        font-size: 2rem;
-    }
-    
-    section {
-        padding: 20px;
-    }
-    
-    .status-grid,
-    .admin-grid,
-    .voters-grid,
-    .candidates-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .message {
-        right: 10px;
-        left: 10px;
-        transform: translateY(-100px);
-    }
-    
-    .message.show {
-        transform: translateY(0);
-    }
-}
-
-/* IPFS Status */
+/* ============================================================
+   IPFS STATUS BADGE
+   ============================================================ */
 .ipfs-status {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 10px 15px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-family: 'Courier New', monospace;
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    max-width: 300px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(28, 28, 30, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #F5F5F7;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  font-size: 11px;
+  font-family: 'SF Mono', 'Fira Code', 'Roboto Mono', monospace;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 280px;
+  box-shadow: var(--shadow-md);
+}
+
+[data-theme="dark"] .ipfs-status {
+  background: rgba(44, 44, 46, 0.88);
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
 #ipfs-indicator {
-    font-weight: bold;
+  font-weight: 600;
+  font-size: 11.5px;
 }
 
 #ipfs-hash {
+  font-size: 10px;
+  word-break: break-all;
+  opacity: 0.65;
+  line-height: 1.4;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 16px 80px;
+  }
+
+  .header {
+    padding: 32px 16px 28px;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  #theme-toggle {
+    top: 20px;
+    right: 0;
+    padding: 7px 12px;
+    font-size: 0.8125rem;
+  }
+
+  section {
+    padding: 24px 20px;
+    border-radius: var(--radius-md);
+  }
+
+  .status-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .admin-grid,
+  .voters-grid,
+  .candidates-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .message {
+    left: 16px;
+    right: 16px;
+    max-width: calc(100vw - 32px);
+    top: 16px;
+    transform: translateY(-80px);
+  }
+
+  .message.show {
+    transform: translateY(0);
+  }
+
+  .ipfs-status {
+    bottom: 12px;
+    right: 12px;
+    max-width: 240px;
     font-size: 10px;
-    word-break: break-all;
-    opacity: 0.8;
-} 
+  }
+}
+
+@media (max-width: 480px) {
+  .status-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .status-card p {
+    font-size: 1.5rem;
+  }
+
+  .header h1 {
+    font-size: 1.75rem;
+  }
+}
+
+/* ============================================================
+   SMOOTH THEME TRANSITIONS
+   ============================================================ */
+section,
+.status-card,
+.admin-card,
+.voter-card,
+.candidate-card,
+.result-bar,
+.progress-bar,
+.admin-card input,
+.voter-id,
+.candidate-id {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 0.25s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
